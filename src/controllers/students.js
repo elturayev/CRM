@@ -1,7 +1,9 @@
-const GET = (request, response ) => {
+import model from '../middlewares/model.js'
+
+const GET = async (request, response ) => {
 	try {
-		console.log('ali')
-		response.end('Hello')
+		const data = await model.students()
+		response.json(data)
 	} catch(error) {
 		console.log(error)
 	}

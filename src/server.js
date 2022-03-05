@@ -4,6 +4,8 @@ const PORT = process.env.PORT || 4000
 
 const app = express()
 
+import '../config.js'
+
 import studentRouter from './routers/students.js'
 
 app.use('/students',studentRouter)
