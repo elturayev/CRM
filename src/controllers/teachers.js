@@ -50,7 +50,28 @@ const POST =  async(request, response) => {
 }
 
 
+const DELETE = async (request, response) => {
+	try {
+		const { teacher_id } = request.query
+		const teacherDelete = await model.teacherDel(teacher_id)
+		if (teacherDelete.length > 0){
+			response.json({
+				status: 200,
+				message: 'Teacher has been deleted!'
+			})
+		} else {
+			response.json({
+				status: 404,
+				message: 'Teacher not found!'
+			})
+		}
+	} catch(error) {
+		console.log(error)
+	}
+}
+
 export default {
 	GET,
-	POST
+	POST,
+	DELETE
 }

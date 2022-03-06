@@ -2,7 +2,8 @@ INSERT INTO groups (group_name) VALUES
 ('Foundation'),
 ('Java'),
 ('NodeJS'),
-('Flutter');
+('Flutter'),
+('JavaScript');
 
 
 INSERT INTO teachers (teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id)

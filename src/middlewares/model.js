@@ -50,6 +50,16 @@ const addTQuery = `
 	RETURNING teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours ;
 `
 
+const teacherDelQuery = `
+	DELETE FROM teachers WHERE teacher_id = $1
+	RETURNING 'Teacher deleted'
+`
+
+const studentDelQuery = `
+	DELETE FROM students WHERE student_id = $1
+	RETURNING 'Student deleted'
+`
+
 const students = () => fetch(studentQuery)
 const addSt = ({student_name,student_phone,parents_name,parents_phone,student_profile_img}) => {
 	return fetch(createStQuery, student_name,student_phone,parents_name,parents_phone,student_profile_img)
@@ -61,11 +71,16 @@ const addT = ({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson
 	return fetch(addTQuery, teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,+group_id)
 }
 
+const teacherDel = (teacherId) => fetch(teacherDelQuery, teacherId)
+const studentDel = (studentId) => fetch(studentDelQuery, studentId)
+
 export default {
 	students,
 	addSt,
 	teacherId,
 	addPSt,
 	teachers,
-	addT
+	addT,
+	teacherDel,
+	studentDel
 }
