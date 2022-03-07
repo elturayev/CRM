@@ -6,9 +6,11 @@ const studentQuery = `
 		st.student_name,
 		st.parents_name,
 		st.parents_phone,
+		st.student_profile_img,
 		gr.group_id,
 		gr.group_name,
 		p.payment_date,
+		t.teacher_id,
 		t.teacher_name,
 		st.student_phone,
 		p.is_paid,
@@ -17,6 +19,12 @@ const studentQuery = `
 	LEFT JOIN students as st on st.student_id = p.student_id
 	LEFT JOIN teachers as t on t.teacher_id = p.teacher_id
 	LEFT JOIN groups as gr on gr.group_id = p.group_id
+	WHERE
+	CASE
+		WHEN length($1) > 0 THEN st.student_name ilike concat('%', $1, '%')
+		ELSE true
+	END
+	ORDER BY st.student_id;
 `
 
 const createStQuery = `
@@ -60,7 +68,28 @@ const studentDelQuery = `
 	RETURNING 'Student deleted'
 `
 
-const students = () => fetch(studentQuery)
+const paidQuery = `
+	SELECT 
+		st.student_name,
+		st.student_phone,
+		gr.group_name,
+		t.teacher_name,
+		p.payment_date,
+		p.is_paid
+	FROM payments as p
+	LEFT JOIN students as st on st.student_id = p.student_id
+	LEFT JOIN teachers as t on t.teacher_id = p.teacher_id
+	LEFT JOIN groups as gr on gr.group_id = p.group_id
+	WHERE p.is_paid = true;
+`
+
+const paidOffQuery = `
+	UPDATE payments SET is_paid = $1, payment_date = $5
+	WHERE (student_id = $2 and teacher_id = $3 and group_id = $4)
+	RETURNING payment_date;
+`
+
+const students = (username) => fetch(studentQuery,(username ? username : ''))
 const addSt = ({student_name,student_phone,parents_name,parents_phone,student_profile_img}) => {
 	return fetch(createStQuery, student_name,student_phone,parents_name,parents_phone,student_profile_img)
 }
@@ -73,6 +102,10 @@ const addT = ({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson
 
 const teacherDel = (teacherId) => fetch(teacherDelQuery, teacherId)
 const studentDel = (studentId) => fetch(studentDelQuery, studentId)
+const paids = () => fetch(paidQuery)
+const paidOff = ({is_paid, studentId, teacher_id,group_id, payment_date}) => {
+	return fetch(paidOffQuery, is_paid, studentId, teacher_id,group_id, payment_date)
+}
 
 export default {
 	students,
@@ -82,5 +115,7 @@ export default {
 	teachers,
 	addT,
 	teacherDel,
-	studentDel
+	studentDel,
+	paids,
+	paidOff
 }

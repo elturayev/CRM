@@ -46,16 +46,17 @@ INSERT INTO attendance(attendance_date,student_id,teacher_id,group_id) VALUES
 ## Payments
 SELECT 
 	st.student_name,
-	gr.group_name,
-	p.payment_date,
-	t.teacher_name,
 	st.student_phone,
+	gr.group_name,
+	t.teacher_name,
+	p.payment_date,
 	p.is_paid
 FROM payments as p
 LEFT JOIN students as st on st.student_id = p.student_id
 LEFT JOIN teachers as t on t.teacher_id = p.teacher_id
 LEFT JOIN groups as gr on gr.group_id = p.group_id
 WHERE p.is_paid = true;
+
 
 
 
@@ -75,8 +76,7 @@ LEFT JOIN payments as p on (p.student_id = a.student_id) and (p.group_id = a.gro
 
 
 
-select
-	t.teacher_name,
-	json_agg(select * from students)
-from teachers
-LEFT join stude
+
+
+
+

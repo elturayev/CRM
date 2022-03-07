@@ -1,6 +1,7 @@
+import  ClientError  from '../utils/errors.js'
 import model from '../middlewares/model.js'
 
-const GET = async (request, response) => {
+const GET = async (request, response, next) => {
 	try {
 		const teacher = await model.teachers()
 		const students = await model.students()
@@ -23,12 +24,12 @@ const GET = async (request, response) => {
 		}
 		response.json(teacher)
 	} catch(error) {
-		console.log(error)
+		return next(error)
 	}
 }
 
 
-const POST =  async(request, response) => {
+const POST =  async(request, response, next) => {
 	try {
 		const { file } = request.files
 		const teacher_profile_img = file.name.replace(/\s/g, '')
@@ -39,18 +40,20 @@ const POST =  async(request, response) => {
 				group_id 
 			} = request.body
 		const addT = await model.addT({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id})
+		file.mv(path.join(process.cwd(), 'src', 'files', teacher_profile_img))
+		
 		response.json({
 			status: 201,
 			message: 'Teacher successfully added!',
 			data: addT
 		})
 	} catch(error) {
-		console.log(error)
+		return next(error)
 	}
 }
 
 
-const DELETE = async (request, response) => {
+const DELETE = async (request, response, next) => {
 	try {
 		const { teacher_id } = request.query
 		const teacherDelete = await model.teacherDel(teacher_id)
@@ -59,14 +62,9 @@ const DELETE = async (request, response) => {
 				status: 200,
 				message: 'Teacher has been deleted!'
 			})
-		} else {
-			response.json({
-				status: 404,
-				message: 'Teacher not found!'
-			})
-		}
+		} else throw new ClientError(404, 'Teacher not found!')
 	} catch(error) {
-		console.log(error)
+		return next(error)
 	}
 }
 
