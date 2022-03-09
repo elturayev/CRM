@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS groups CASCADE;
 DROP TABLE IF EXISTS teachers CASCADE;
 DROP TABLE IF EXISTS students CASCADE;
 DROP TABLE IF EXISTS payments CASCADE;
-DROP TABLE IF EXISTS attendance CASCADE;
+DROP TABLE IF EXISTS zattendance CASCADE;
 
 
 CREATE TABLE groups (
@@ -33,6 +33,7 @@ CREATE TABLE students(
 	parents_name  varchar(50) not null,
 	parents_phone  varchar(12) not null,
 	student_profile_img  varchar(80)null,
+	delete_at_student timestamp null,
 	create_at_student  timestamp default current_timestamp
 );
 
@@ -49,7 +50,8 @@ CREATE TABLE payments (
 
 CREATE TABLE attendance (
 	attendance_id serial not null primary key,
-	attendance_date varchar(50) not null,
+	attendance_date timestamp default current_date,
+	incoming_date timestamp null,
 	student_id int not null references students(student_id) on delete cascade,
 	teacher_id int  not null references teachers(teacher_id) on delete cascade,
 	group_id int not null references groups(group_id) on delete cascade,

@@ -15,31 +15,31 @@ VALUES
 
 
 
-INSERT INTO students (student_name,student_phone,parents_name,parents_phone,student_profile_img)
+INSERT INTO students (student_name,student_phone,parents_name,parents_phone,student_profile_img, delete_at_student)
 VALUES
-('Ali Vahobov', '998901234567', 'Aliev Zokir', '998902314567', 'ali.jpg'),
-('Bakir Bakirov', '998995641235', 'Eshmat Toshmatov', '998902314567', 'bakir.jpg'),
-('Alisher Egamberdiyev', '998902223365', 'Nigora Shakirova', '998902314589', 'alisher.jpg'),
-('Oysha Toshmetova', '998918880880', 'Rustam Rustamov', '998947894561', 'oysha.jpg'),
-('Aziz Toshpo''latov', '998973216547', 'Zokir Ravshanov', '998902314567', 'aziz.jpg');
+('Ali Vahobov', '998901234567', 'Aliev Zokir', '998902314567', 'ali.jpg',null),
+('Bakir Bakirov', '998995641235', 'Eshmat Toshmatov', '998902314567', 'bakir.jpg',null),
+('Alisher Egamberdiyev', '998902223365', 'Nigora Shakirova', '998902314589', 'alisher.jpg', '03.03.2022'),
+('Oysha Toshmetova', '998918880880', 'Rustam Rustamov', '998947894561', 'oysha.jpg',null),
+('Aziz Toshpo''latov', '998973216547', 'Zokir Ravshanov', '998902314567', 'aziz.jpg',null);
 
 
 
 INSERT INTO payments (is_paid,student_id,teacher_id,group_id, payment_date) VALUES
 (false, 1,2,2, null),
 (false, 3,2,2, null),
-(true, 5,1,1, '2022-03-05'),
+(true, 5,1,1, '05.03.2022'),
 (false, 2,4,3, null),
-(true, 4,3,4,'2022-03-01'),
+(true, 4,3,4,'10.03.2022'),
 (false, 1,1,1, null),
 (false, 3,4,3, null);
 
 
-INSERT INTO attendance(attendance_date,student_id,teacher_id,group_id) VALUES
-('2022-03-06',1,2,2),
-('2022-03-06',5,1,1),
-('2022-03-06',2,4,3),
-('2022-03-06',4,3,4);
+INSERT INTO attendance(attendance_date,incoming_date, student_id,teacher_id,group_id) VALUES
+('01.02.2022',null,1,2,2);
+('03.03.2022','03.03.2022',5,1,1),
+('03.03.2022',null,2,4,3),
+('03.03.2022',null,4,3,4);
 
 
 
@@ -67,6 +67,7 @@ SELECT
 	a.attendance_date,
 	t.teacher_name,
 	st.student_phone,
+	a.incoming_date,
 	p.is_paid
 FROM attendance as a
 LEFT JOIN students as st on st.student_id = a.student_id
@@ -80,3 +81,9 @@ LEFT JOIN payments as p on (p.student_id = a.student_id) and (p.group_id = a.gro
 
 
 
+
+
+SELECT 
+	*
+FROM a 
+WHERE to_char('2022-03-09T06:19:31.788Z'::Date ,'yyyy/mm') = to_char(current_date, 'yyyy/mm');

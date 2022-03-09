@@ -1,10 +1,11 @@
 import  ClientError  from '../utils/errors.js'
-import model from '../middlewares/model.js'
+import modelT from '../middlewares/models/teacherModel.js'
+import modelS from '../middlewares/models/studentModel.js'
 
 const GET = async (request, response, next) => {
 	try {
-		const teacher = await model.teachers()
-		const students = await model.students()
+		const teacher = await modelT.teachers()
+		const students = await modelS.students()
 		for(let i of teacher){
 			const isPaid = []
 			const studentAll = []
@@ -39,7 +40,7 @@ const POST =  async(request, response, next) => {
 				lesson_hours,
 				group_id 
 			} = request.body
-		const addT = await model.addT({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id})
+		const addT = await modelT.addT({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id})
 		file.mv(path.join(process.cwd(), 'src', 'files', teacher_profile_img))
 		
 		response.json({
@@ -56,7 +57,7 @@ const POST =  async(request, response, next) => {
 const DELETE = async (request, response, next) => {
 	try {
 		const { teacher_id } = request.query
-		const teacherDelete = await model.teacherDel(teacher_id)
+		const teacherDelete = await modelT.teacherDel(teacher_id)
 		if (teacherDelete.length > 0){
 			response.json({
 				status: 200,

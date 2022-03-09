@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import controller from '../controllers/payments.js'
+import controller from '../controllers/attendances.js'
 
 const router = Router()
+
 router.get('/', controller.GET)
-router.put('/', controller.PUT)
+router.post('/', controller.POST)
 
 export default router;
