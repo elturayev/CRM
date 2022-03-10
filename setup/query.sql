@@ -4,7 +4,8 @@ DROP TABLE IF EXISTS groups CASCADE;
 DROP TABLE IF EXISTS teachers CASCADE;
 DROP TABLE IF EXISTS students CASCADE;
 DROP TABLE IF EXISTS payments CASCADE;
-DROP TABLE IF EXISTS zattendance CASCADE;
+DROP TABLE IF EXISTS attendance CASCADE;
+DROP TABLE IF EXISTS statistics CASCADE;
 
 
 CREATE TABLE groups (
@@ -58,6 +59,13 @@ CREATE TABLE attendance (
 	create_at_attendance timestamp default current_timestamp
 );
 
+
+CREATE TABLE statistics (
+	statistic_id serial not null primary key,
+	total_students smallint default 0,
+	total_deleted_students  smallint default 0,
+	statistic_date timestamp default null
+);
 
 
 

@@ -18,7 +18,11 @@ const paidQuery = `
 	LEFT JOIN students as st on st.student_id = p.student_id
 	LEFT JOIN teachers as t on t.teacher_id = p.teacher_id
 	LEFT JOIN groups as gr on gr.group_id = p.group_id
-	;
+	WHERE p.payment_date IS NOT NULL AND
+	CASE
+		WHEN length($1) > 0 THEN st.student_name ilike concat('%', $1, '%')
+		ELSE true
+	END;
 `
 
 const paidOffQuery = `
@@ -27,7 +31,7 @@ const paidOffQuery = `
 	RETURNING payment_date;
 `
 
-const paids = () => fetch(paidQuery)
+const paids = (student_name) => fetch(paidQuery, student_name)
 const paidOff = ({is_paid, studentId, teacher_id,group_id, payment_date}) => {
 	return fetch(paidOffQuery, is_paid, studentId, teacher_id,group_id, payment_date)
 }

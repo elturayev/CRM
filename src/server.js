@@ -1,9 +1,14 @@
 import express from 'express'
+import cors from 'cors'
 import fileUpload from 'express-fileupload'
 import path from 'path'
 const PORT = process.env.PORT || 4000
 
 const app = express()
+
+app.use(express.json())
+app.use(fileUpload())
+app.use(cors())
 
 import '../config.js'
 
@@ -12,8 +17,6 @@ import teacherRouter from './routers/teachers.js'
 import paymentRouter from './routers/payments.js'
 import attendanceRouter from './routers/attendances.js'
 
-app.use(express.json())
-app.use(fileUpload())
 app.use('/images',express.static(path.join(process.cwd(), 'src', 'files')))
 
 app.use('/students',studentRouter)

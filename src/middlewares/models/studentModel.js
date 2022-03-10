@@ -7,7 +7,7 @@ const studentQuery = `
 		st.parents_name,
 		st.parents_phone,
 		st.student_profile_img,
-		gr.group_id,
+		gr.group_id, 
 		gr.group_name,
 		p.payment_date,
 		t.teacher_id,
@@ -25,7 +25,9 @@ const studentQuery = `
 		WHEN length($1) > 0 THEN st.student_name ilike concat('%', $1, '%')
 		ELSE true
 	END AND delete_at_student IS NULL
-	ORDER BY st.student_id;
+	ORDER BY st.student_id
+	OFFSET $2 ROWS 
+	FETCH FIRST $3 ROW ONLY;
 `
 
 const createStQuery = `
@@ -58,7 +60,9 @@ const studentDelQuery = `
 `
 
 
-const students = (username) => fetch(studentQuery,(username ? username : ''))
+const students = (username, page, limit) => {
+	return fetch(studentQuery,(username ? username : ''), (page - 1) * limit, limit)}
+
 const addSt = ({student_name,student_phone,parents_name,parents_phone,student_profile_img}) => {
 	return fetch(createStQuery, student_name,student_phone,parents_name,parents_phone,student_profile_img)
 }

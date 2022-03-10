@@ -4,8 +4,9 @@ import modelS from '../middlewares/models/studentModel.js'
 
 const GET = async (request, response, next) => {
 	try {
-		const teacher = await modelT.teachers()
-		const students = await modelS.students()
+		const { search } = request.query
+		const teacher = await modelT.teachers(search)
+		const students = await modelS.students(null,1,10000)
 		for(let i of teacher){
 			const isPaid = []
 			const studentAll = []

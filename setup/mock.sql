@@ -43,6 +43,7 @@ INSERT INTO attendance(attendance_date,incoming_date, student_id,teacher_id,grou
 
 
 
+
 ## Payments
 SELECT 
 	st.student_name,

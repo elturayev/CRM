@@ -4,8 +4,9 @@ import modelS from '../middlewares/models/studentModel.js'
 
 const GET = async (request, response, next) => {
 	try {
+		const { search } = request.query
 		const paidUpdate = await modelP.paidUpdate()
-		const paidSt = await modelP.paids()
+		const paidSt = await modelP.paids(search)
 		response.json(paidSt)
 	} catch(error) {
 		return next(error)

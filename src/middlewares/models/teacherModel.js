@@ -16,7 +16,12 @@ const teacherQuery = `
 		t.*,
 		gr.group_name
 	FROM teachers as t
-	NATURAL JOIN groups as gr;
+	NATURAL JOIN groups as gr
+	WHERE
+	CASE
+		WHEN length($1) > 0 THEN gr.group_name ilike concat('%', $1, '%')
+		ELSE true
+	END;
 `
 
 const addTQuery = `
@@ -31,7 +36,7 @@ const teacherDelQuery = `
 `
 
 const teacherId = (group_id) => fetch(searchTeacherIdQuery, group_id)
-const teachers = () => fetch(teacherQuery)
+const teachers = (group_name) => fetch(teacherQuery,group_name)
 const addT = ({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id}) => {
 	return fetch(addTQuery, teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,+group_id)
 }
@@ -43,5 +48,5 @@ export default {
 	teacherId,
 	teachers,
 	addT,
-	teacherDel,
+	teacherDel
 }
