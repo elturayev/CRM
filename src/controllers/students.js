@@ -15,7 +15,11 @@ const GET = async (request, response, next ) => {
 			response.json(dataDelSt)
 		}
 		else if(params == 'statistics'){
+			const totalGr = await modelStatistic.totalGroups()
+			const totalT = await modelStatistic.totalTeachers()
+			
 			const statisticsSt = await modelStatistic.statistics()
+			statisticsSt.push([totalT[0],totalGr[0]])
 			response.json(statisticsSt)
 		}
 		else {

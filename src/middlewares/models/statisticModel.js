@@ -1,9 +1,26 @@
 import fetch from '../../utils/postgres.js'
 
+// total groups query
+const totalGrQuery = `
+	SELECT 
+		count(gr.group_id) as total_groups
+	FROM groups as gr;
+`
+
+// total teachers query
+const totalTQuery =	`
+	SELECT
+		count(t.teacher_id) as total_teachers
+	FROM teachers as t;
+`
+
 // total students query
 const statisticQuery = `
 	SELECT
-		*
+		statistic_id,
+		total_students,
+		total_deleted_students,
+		to_char(statistic_date, 'MON-DD-YYYY') as statistic_date
 	FROM statistics;
 `
 
@@ -60,6 +77,13 @@ const updateTotalDelStQuery = 	`
 	WHERE statistic_id = $1;
 `
 
+// total groups
+const totalGroups = () => fetch(totalGrQuery)
+
+// total teachers
+const totalTeachers = () => fetch(totalTQuery)
+
+
 // total students
 const statistics = () => fetch(statisticQuery)
 const totalStudents = () => fetch(totalStQuery)
@@ -74,6 +98,10 @@ const addTotalDelSt = (totalDelSt, statisticDate) => fetch(addTotalDelStQuery,to
 const updateTotalDelSt = (statisticId,totalDelSt) => fetch(updateTotalDelStQuery,statisticId,totalDelSt)
 
 export default {
+	totalGroups,
+
+	totalTeachers,
+
 	statistics,
 	totalStudents,
 	validTotal,
