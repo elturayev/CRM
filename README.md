@@ -1,3 +1,2 @@
 # CRM
-NodeJs
 PROJECT CONTINUES ...
