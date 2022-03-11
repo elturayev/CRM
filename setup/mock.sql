@@ -9,9 +9,9 @@ INSERT INTO groups (group_name) VALUES
 INSERT INTO teachers (teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id)
 VALUES 
 ('Alisher Kasimov', '998901234567', 'rasm.jpg','Dush, Sesh, Juma', '14:00 - 16:00', 1),
-('Akbarshox Sattarov', '998901234567', 'rasm.jpg','Sesh, Pay, Shan', '18:00 - 20:00', 2),
-('Saud Abdulvahed', '998901234567', 'rasm.jpg','Dush, Chor, Juma', '09:00 - 12:00', 4),
-('MuhammadHusayn Olimjonov', '998901234567', 'rasm.jpg','Dush, Sesh, Chor, Pay, Juma', '17:30 - 20:00', 3);
+('Akbarshox Sattarov', '998901234561', 'rasm.jpg','Sesh, Pay, Shan', '18:00 - 20:00', 2),
+('Saud Abdulvahed', '998901234565', 'rasm.jpg','Dush, Chor, Juma', '09:00 - 12:00', 4),
+('MuhammadHusayn Olimjonov', '998901234560', 'rasm.jpg','Dush, Sesh, Chor, Pay, Juma', '17:30 - 20:00', 3);
 
 
 
@@ -36,11 +36,12 @@ INSERT INTO payments (is_paid,student_id,teacher_id,group_id, payment_date) VALU
 
 
 INSERT INTO attendance(attendance_date,incoming_date, student_id,teacher_id,group_id) VALUES
-('01.02.2022',null,1,2,2);
-('03.03.2022','03.03.2022',5,1,1),
-('03.03.2022',null,2,4,3),
-('03.03.2022',null,4,3,4);
+('01.02.2022',null,1,2,2),
+('03.03.2022','03.03.2022',5,1,1);
 
+
+INSERT INTO administrator (admin_name,admin_password,admin_phone) VALUES
+('Admin', crypt('admin', gen_salt('bf')), '998901112233');
 
 
 
@@ -75,12 +76,6 @@ LEFT JOIN students as st on st.student_id = a.student_id
 LEFT JOIN teachers as t on t.teacher_id = a.teacher_id
 LEFT JOIN groups as gr on gr.group_id = a.group_id
 LEFT JOIN payments as p on (p.student_id = a.student_id) and (p.group_id = a.group_id);
-
-
-
-
-
-
 
 
 

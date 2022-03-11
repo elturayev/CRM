@@ -48,8 +48,8 @@ const deleteStQuery = `
 		st.student_profile_img,
 		st.parents_name,
 		st.parents_phone,
-		to_char(st.delete_at_student, 'DD.MM.YYYY') as deleteStudentdate,
-		to_char(st.create_at_student, 'DD.MM.YYYY') as createStudentdate
+		to_char(st.delete_at_student, 'DD.MM.YYYY') as delete_student_date,
+		to_char(st.create_at_student, 'DD.MM.YYYY') as create_student_date
 	FROM students as st
 	WHERE st.delete_at_student IS NOT NULL
 `

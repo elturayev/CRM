@@ -5,8 +5,10 @@ import modelStatistic from '../middlewares/models/statisticModel.js'
 import { PAGINATION } from '../../config.js'
 import path from 'path'
 
+
 const GET = async (request, response, next ) => {
 	try {
+
 		const { params } = request.params
 		const { search, page = PAGINATION.page, limit = PAGINATION.limit } = request.query
 		if(params == 'deletedStudents'){
@@ -26,22 +28,26 @@ const GET = async (request, response, next ) => {
 			const dataSt = await modelS.students(search, page, limit)
 			response.json(dataSt)
 		}
+
+		return next()
 	} catch(error) {
 		return next(error)
 	}
 }
 
+
 const POST = async (request, response, next) => {
 	try {
 
 		const  { file } = request.files
-		const student_profile_img = file.name.replace(/\s/g, '')
 		const { student_name,
 				student_phone,
 				parents_name,
 				parents_phone,
 				group_id
 			} = request.body
+
+		const student_profile_img = file.name.replace(/\s/g, '')
 		const createSt = await modelS.addSt({student_name,student_phone,parents_name,parents_phone,student_profile_img})
 		const searchTId = await modelT.teacherId(group_id)
 		const studentId = createSt[0].student_id
@@ -60,16 +66,16 @@ const POST = async (request, response, next) => {
 			await modelStatistic.addTotalSt(totalSt[0].total, new Date().toLocaleDateString('uz-UZ'))
 		}
 
-
 		response.json({
 			status: 201,
 			message: 'Student successfully added!'
 		})
-			
+		return next()
 	} catch(error) {
 		return next(error)
 	}
 }
+
 
 const DELETE = async (request, response, next) => {
 	try {

@@ -6,8 +6,27 @@ const schema = Joi.object({
 	phone: Joi.string().pattern(new RegExp(/^998(9[012345789]|3[3]|7[1]|8[8])[0-9]{7}$/)).required()
 })
 
+const schemaLogin = Joi.object({
+	admin_name: Joi.string().min(3).max(60).required(),
+	admin_password: Joi.string().min(4).max(8).required()
+})
+
+const validLogin = (request, response, next) => {
+	try {
+		
+		const { error, value } = schemaLogin.validate(request.body)
+		if(error) throw new ClientError(401,error.details[0].message)
+
+		return next()
+	} catch(error) {
+		return next(error)
+	}
+}
+
+
 const validTeacher = (request, response, next) => {
 	try {
+
 		if(!request.files) throw new ClientError(404,'File must be entered!')
 		
 		const { file } = request.files
@@ -33,9 +52,9 @@ const validTeacher = (request, response, next) => {
 }
 
 
-
 const validStudent = (request, response, next) => {
 	try {
+
 		if(!request.files) throw new ClientError(404,'File must be entered!')
 		
 		const { file } = request.files
@@ -73,8 +92,8 @@ const validStudent = (request, response, next) => {
 }
 
 
-
 export default {
+	validLogin,
 	validTeacher,
 	validStudent
 }

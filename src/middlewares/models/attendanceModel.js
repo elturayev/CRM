@@ -27,16 +27,36 @@ const deleteAttendancesQuery = `
 	WHERE to_char(attendance_date::Date ,'yyyy/mm/dd') < to_char(current_date, 'yyyy/mm/dd')
 `
 
+const validAtQuery = `
+	SELECT
+		*
+	FROM attendance 
+	WHERE teacher_id = $1 AND group_id = $2
+`
+
+const updateAtQuery = `
+	UPDATE attendance SET attendance_date = $1, incoming_date = $2
+	WHERE student_id = $3 AND teacher_id = $4 AND group_id = $5
+`
+
 const attendances = () => fetch(attendancesQuery)
 
+const validAttendances = ({ teacher_id, group_id }) => fetch(validAtQuery, teacher_id, group_id)
 const addAttendances = ({attendance_date,incoming_date, student_id,teacher_id,group_id}) => {
 	return fetch(addAttendancesQuery,attendance_date ,incoming_date, student_id,teacher_id,group_id)
 }
 
+const updateAttendances = ({attendance_date,incoming_date,student_id,teacher_id,group_id}) => {
+	return fetch(updateAtQuery,attendance_date ,incoming_date,student_id,teacher_id,group_id)
+}
+
 const deleteAttendances = () => fetch(deleteAttendancesQuery)
+
 
 export default {
 	attendances,
+	validAttendances,
 	addAttendances,
-	deleteAttendances
+	updateAttendances,
+	deleteAttendances,
 }
