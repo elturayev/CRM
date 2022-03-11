@@ -7,9 +7,6 @@ const searchTeacherIdQuery = `
 	WHERE t.group_id = $1
 `
 
-const addPQuery = `
-	INSERT INTO payments (student_id,teacher_id,group_id) VALUES( $1, $2, $3 );
-`
 
 const teacherQuery = `
 	SELECT 

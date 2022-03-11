@@ -28,6 +28,9 @@ app.use((error,request,response,next)=>{
 	if([400,401,404,413,415].includes(error.status)){
 		return response.status(error.status).send(error)
 	}
+	else {
+		return response.send(error)
+	}
 })
 
 app.listen(PORT, ()=> console.log('Backend server is running on http://localhost:' + PORT))

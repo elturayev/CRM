@@ -14,8 +14,8 @@ const studentQuery = `
 		t.teacher_name,
 		st.student_phone,
 		p.is_paid,
-		to_char(st.delete_at_student, 'DD.MM.YYYY') as deleteStudentdate,
-		to_char(st.create_at_student, 'DD.MM.YYYY') as createStudentdate
+		to_char(st.delete_at_student, 'DD.MM.YYYY') as delete_student_date,
+		to_char(st.create_at_student, 'DD.MM.YYYY') as create_student_date
 	FROM payments as p
 	LEFT JOIN students as st on st.student_id = p.student_id
 	LEFT JOIN teachers as t on t.teacher_id = p.teacher_id
@@ -34,6 +34,10 @@ const createStQuery = `
 	INSERT INTO students (student_name,student_phone,parents_name,parents_phone,student_profile_img)
 	VALUES ($1, $2, $3, $4, $5)
 	RETURNING student_id, student_name, student_phone, student_profile_img
+`
+
+const addPQuery = `
+	INSERT INTO payments (student_id,teacher_id,group_id) VALUES( $1, $2, $3 );
 `
 
 const deleteStQuery = `

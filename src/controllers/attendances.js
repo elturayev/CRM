@@ -35,6 +35,10 @@ const POST = (request, response, next) => {
 			}
 			return student
 		})
+		response.json({
+			status: 201,
+			message: 'Attendance successfully added!'
+		})
 
 	} catch(error) {
 		return next(error)

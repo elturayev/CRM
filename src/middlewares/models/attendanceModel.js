@@ -24,7 +24,7 @@ const addAttendancesQuery = `
 
 const deleteAttendancesQuery = `
 	DELETE FROM attendance
-	WHERE to_char(attendance_date::Date ,'yyyy/mm') < to_char(current_date, 'yyyy/mm')
+	WHERE to_char(attendance_date::Date ,'yyyy/mm/dd') < to_char(current_date, 'yyyy/mm/dd')
 `
 
 const attendances = () => fetch(attendancesQuery)

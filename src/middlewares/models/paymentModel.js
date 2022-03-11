@@ -26,14 +26,14 @@ const paidQuery = `
 `
 
 const paidOffQuery = `
-	UPDATE payments SET is_paid = $1, payment_date = $5
-	WHERE (student_id = $2 and teacher_id = $3 and group_id = $4)
+	UPDATE payments SET is_paid = true, payment_date = $4
+	WHERE (student_id = $1 and teacher_id = $2 and group_id = $3)
 	RETURNING payment_date;
 `
 
 const paids = (student_name) => fetch(paidQuery, student_name)
-const paidOff = ({is_paid, studentId, teacher_id,group_id, payment_date}) => {
-	return fetch(paidOffQuery, is_paid, studentId, teacher_id,group_id, payment_date)
+const paidOff = ({studentId, teacher_id,group_id, payment_date}) => {
+	return fetch(paidOffQuery, studentId, teacher_id,group_id, payment_date)
 }
 const paidUpdate = () => fetch(paidUpdateQuery)
 
