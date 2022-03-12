@@ -17,16 +17,6 @@ const attendancesQuery = `
 
 `
 
-const addAttendancesQuery = `
-	INSERT INTO attendance(attendance_date,incoming_date, student_id,teacher_id,group_id) VALUES
-	($1, $2, $3, $4, $5);
-`
-
-const deleteAttendancesQuery = `
-	DELETE FROM attendance
-	WHERE to_char(attendance_date::Date ,'yyyy/mm/dd') < to_char(current_date, 'yyyy/mm/dd')
-`
-
 const validAtQuery = `
 	SELECT
 		*
@@ -34,10 +24,21 @@ const validAtQuery = `
 	WHERE teacher_id = $1 AND group_id = $2
 `
 
+const addAttendancesQuery = `
+	INSERT INTO attendance(attendance_date,incoming_date, student_id,teacher_id,group_id) VALUES
+	($1, $2, $3, $4, $5);
+`
+
 const updateAtQuery = `
 	UPDATE attendance SET attendance_date = $1, incoming_date = $2
 	WHERE student_id = $3 AND teacher_id = $4 AND group_id = $5
 `
+
+const deleteAttendancesQuery = `
+	DELETE FROM attendance
+	WHERE to_char(attendance_date::Date ,'yyyy/mm/dd') < to_char(current_date, 'yyyy/mm/dd')
+`
+
 
 const attendances = () => fetch(attendancesQuery)
 
@@ -58,5 +59,5 @@ export default {
 	validAttendances,
 	addAttendances,
 	updateAttendances,
-	deleteAttendances,
+	deleteAttendances
 }
