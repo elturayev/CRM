@@ -61,15 +61,15 @@ const POST = async (request, response, next) => {
 			message: 'Student successfully added!'
 		})
 
-		const totalSt = await modelStatistic.totalStudents()
-		const validTotal = await modelStatistic.validTotal()
+		// const totalSt = await modelStatistic.totalStudents()
+		// const validTotal = await modelStatistic.validTotal()
 		
-		if (validTotal.length > 0){
-			await modelStatistic.updateTotalSt(validTotal[0].statistic_id, totalSt[0].total)
-		}
-		else {
-			await modelStatistic.addTotalSt(totalSt[0].total, new Date().toLocaleDateString('uz-UZ'))
-		}
+		// if (validTotal.length > 0){
+		// 	await modelStatistic.updateTotalSt(validTotal[0].statistic_id, totalSt[0].total)
+		// }
+		// else {
+		// 	await modelStatistic.addTotalSt(totalSt[0].total, new Date().toLocaleDateString('uz-UZ'))
+		// }
 
 		
 		return next()
