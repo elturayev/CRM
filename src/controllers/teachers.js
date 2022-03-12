@@ -47,8 +47,12 @@ const POST =  async(request, response, next) => {
 			} = request.body
 		
 		const teacher_profile_img = file.name.replace(/\s/g, '')
-		
+		const teachersAll = await modelT.teacherId(group_id)
+
+		if(teachersAll.length > 0) throw new ClientError(400,'This group has teacher!')
+
 		const addT = await modelT.addT({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id})
+		
 		if(!addT) throw new ClientError(400, 'Teacher not successfully added!')
 
 		file.mv(path.join(process.cwd(), 'src', 'files', teacher_profile_img))

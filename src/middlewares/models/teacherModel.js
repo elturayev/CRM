@@ -2,6 +2,7 @@ import fetch from '../../utils/postgres.js'
 
 const searchTeacherIdQuery = `SELECT * FROM teachers WHERE group_id = $1`
 
+
 const teacherQuery = `
 	SELECT 
 		t.*,
