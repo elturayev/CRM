@@ -56,6 +56,11 @@ const POST = async (request, response, next) => {
 		
 		file.mv(path.join(process.cwd(), 'src', 'files', student_profile_img))
 		
+		response.json({
+			status: 201,
+			message: 'Student successfully added!'
+		})
+
 		const totalSt = await modelStatistic.totalStudents()
 		const validTotal = await modelStatistic.validTotal()
 		
@@ -66,10 +71,7 @@ const POST = async (request, response, next) => {
 			await modelStatistic.addTotalSt(totalSt[0].total, new Date().toLocaleDateString('uz-UZ'))
 		}
 
-		response.json({
-			status: 201,
-			message: 'Student successfully added!'
-		})
+		
 		return next()
 	} catch(error) {
 		return next(error)
