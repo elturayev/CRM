@@ -36,6 +36,15 @@ const createStQuery = `
 	RETURNING student_id, student_name, student_phone, student_profile_img
 `
 
+const validStQuery = `
+	SELECT 
+		p.*
+	FROM payments as p
+	NATURAL JOIN students as st
+	NATURAL JOIN groups as gr
+	WHERE st.student_phone = $1 AND gr.group_id = $2
+`
+
 const addPQuery = `
 	INSERT INTO payments (student_id,teacher_id,group_id) VALUES( $1, $2, $3 );
 `
@@ -70,6 +79,8 @@ const students = (username, page, limit) => {
 const addSt = ({student_name,student_phone,parents_name,parents_phone,student_profile_img}) => {
 	return fetch(createStQuery, student_name,student_phone,parents_name,parents_phone,student_profile_img)
 }
+
+const validSt = ({ student_phone, group_id }) => fetch(validStQuery, student_phone, group_id)
 const addPSt = ({studentId, teacherId, group_id}) => fetch(addPQuery, studentId, teacherId,group_id)
 const studentDel = (studentId) => fetch(studentDelQuery, studentId)
 const deleteSt = () => fetch(deleteStQuery)
@@ -79,6 +90,7 @@ const controlDelSt = () => fetch(controlDelStQuery)
 export default {
 	students,
 	addSt,
+	validSt,
 	addPSt,
 	studentDel,
 	deleteSt,

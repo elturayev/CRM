@@ -76,10 +76,3 @@ LEFT JOIN students as st on st.student_id = a.student_id
 LEFT JOIN teachers as t on t.teacher_id = a.teacher_id
 LEFT JOIN groups as gr on gr.group_id = a.group_id
 LEFT JOIN payments as p on (p.student_id = a.student_id) and (p.group_id = a.group_id);
-
-
-
-SELECT 
-	*
-FROM a 
-WHERE to_char('2022-03-09T06:19:31.788Z'::Date ,'yyyy/mm') = to_char(current_date, 'yyyy/mm');

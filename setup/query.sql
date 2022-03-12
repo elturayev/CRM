@@ -67,7 +67,7 @@ CREATE TABLE statistics (
 	statistic_id serial not null primary key,
 	total_students smallint default 0,
 	total_deleted_students  smallint default 0,
-	statistic_date timestamp default null
+	statistic_date timestamptz default null
 );
 
 
@@ -81,17 +81,5 @@ CREATE TABLE administrator (
 	create_at_admin  timestamp default current_timestamp
 );
 
-
--- CREATE UNIQUE INDEX idx_group
--- ON groups(group_name);
-
--- CREATE UNIQUE INDEX idx_teacher
--- ON teachers(teacher_phone);
-
--- CREATE UNIQUE INDEX idx_student
--- ON students(student_phone);
-
--- CREATE UNIQUE INDEX idx_admin
--- ON administrator(admin_phone);
 
 

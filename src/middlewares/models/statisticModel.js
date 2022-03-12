@@ -73,7 +73,7 @@ const addTotalDelStQuery = `
 `
 
 const updateTotalDelStQuery = 	`
-	UPDATE statistics SET total_deleted_students = $2
+	UPDATE statistics SET total_deleted_students = $2, total_students = (total_students - 1)
 	WHERE statistic_id = $1;
 `
 

@@ -48,30 +48,33 @@ const POST = async (request, response, next) => {
 			} = request.body
 
 		const student_profile_img = file.name.replace(/\s/g, '')
+		const validSt = await modelS.validSt({ student_phone, group_id  })
+		if(validSt.length > 0) throw new ClientError(400, 'This user is available!')
 		const createSt = await modelS.addSt({student_name,student_phone,parents_name,parents_phone,student_profile_img})
-		const searchTId = await modelT.teacherId(group_id)
 		const studentId = createSt[0].student_id
+
+
+		const searchTId = await modelT.teacherId(group_id)
 		const teacherId = searchTId[0].teacher_id
 		const addStudent = await modelS.addPSt({studentId, teacherId, group_id})
 		
 		file.mv(path.join(process.cwd(), 'src', 'files', student_profile_img))
 		
+		const totalSt = await modelStatistic.totalStudents()
+		const validTotal = await modelStatistic.validTotal()
+		
+		if (validTotal.length > 0){
+			await modelStatistic.updateTotalSt(validTotal[0].statistic_id, totalSt[0].total)
+		}
+		else {
+			await modelStatistic.addTotalSt(totalSt[0].total, new Date())
+		}
+
 		response.json({
 			status: 201,
 			message: 'Student successfully added!'
 		})
 
-		// const totalSt = await modelStatistic.totalStudents()
-		// const validTotal = await modelStatistic.validTotal()
-		
-		// if (validTotal.length > 0){
-		// 	await modelStatistic.updateTotalSt(validTotal[0].statistic_id, totalSt[0].total)
-		// }
-		// else {
-		// 	await modelStatistic.addTotalSt(totalSt[0].total, new Date().toLocaleDateString('uz-UZ'))
-		// }
-
-		
 		return next()
 	} catch(error) {
 		return next(error)
