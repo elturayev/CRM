@@ -70,7 +70,7 @@ const POST = async (request, response, next) => {
 			await modelStatistic.addTotalSt(totalSt[0].total, new Date())
 		}
 
-		response.json({
+		await response.json({
 			status: 201,
 			message: 'Student successfully added!'
 		})
