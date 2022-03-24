@@ -49,7 +49,7 @@ const POST = async (request, response, next) => {
 
 		const student_profile_img = file.name.replace(/\s/g, '')
 		const validSt = await modelS.validSt({ student_phone, group_id  })
-		if(validSt.length > 0) throw new ClientError(400, 'This user is available!')
+		if(validSt.length > 0) throw new ClientError(400, 'This student is available!')
 		const createSt = await modelS.addSt({student_name,student_phone,parents_name,parents_phone,student_profile_img})
 		const studentId = createSt[0].student_id
 
@@ -70,10 +70,12 @@ const POST = async (request, response, next) => {
 			await modelStatistic.addTotalSt(totalSt[0].total, new Date())
 		}
 
-		await response.json({
-			status: 201,
-			message: 'Student successfully added!'
-		})
+		if(addStudent.length > 0){
+			response.json({
+				status: 201,
+				message: 'Student successfully added!'
+			})
+		} else throw new ClientError(400, 'Student not successfully added :(')
 
 		return next()
 	} catch(error) {

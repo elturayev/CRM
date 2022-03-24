@@ -1,7 +1,7 @@
 import pg from 'pg'
 
 const pool = new pg.Pool({
-  connectionString : 'postgres://tbruzflo:S1yGe9FfE_Dr2loSenOML9eKnYlrxG99@john.db.elephantsql.com/tbruzflo'
+  connectionString : 'postgres://zcexpelu:GdBcDsPQmQcdS5q8OtT3KNpCyvhXRHHP@john.db.elephantsql.com/zcexpelu'
 })
 
 async function fetch(query,...params){

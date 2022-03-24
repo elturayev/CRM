@@ -18,6 +18,7 @@ import studentRouter from './routers/students.js'
 import teacherRouter from './routers/teachers.js'
 import paymentRouter from './routers/payments.js'
 import attendanceRouter from './routers/attendances.js'
+import appealsRouter from './routers/appeals.js'
 
 // Static
 app.use('/images',express.static(path.join(process.cwd(), 'src', 'files')))
@@ -28,6 +29,7 @@ app.use('/students',studentRouter)
 app.use('/teachers',teacherRouter)
 app.use('/payments',paymentRouter)
 app.use('/attendances',attendanceRouter)
+app.use('/appeals',appealsRouter)
 
 
 // errorHandler

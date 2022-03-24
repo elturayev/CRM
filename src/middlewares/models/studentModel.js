@@ -46,7 +46,8 @@ const validStQuery = `
 `
 
 const addPQuery = `
-	INSERT INTO payments (student_id,teacher_id,group_id) VALUES( $1, $2, $3 );
+	INSERT INTO payments (student_id,teacher_id,group_id) VALUES( $1, $2, $3 )
+	RETURNING *;
 `
 
 const deleteStQuery = `
