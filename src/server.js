@@ -14,6 +14,7 @@ import '../config.js'
 
 // Router
 import authRouter from './routers/auth.js'
+import groupRouter from './routers/group.js'
 import studentRouter from './routers/students.js'
 import teacherRouter from './routers/teachers.js'
 import paymentRouter from './routers/payments.js'
@@ -25,6 +26,7 @@ app.use('/images',express.static(path.join(process.cwd(), 'src', 'files')))
 
 // Routes
 app.use('/auth', authRouter)
+app.use('/groups', groupRouter)
 app.use('/students',studentRouter)
 app.use('/teachers',teacherRouter)
 app.use('/payments',paymentRouter)

@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS appeals CASCADE;
 CREATE TABLE groups (
 	group_id serial not null primary key,
 	group_name varchar(60) not null,
+	group_active boolean default false,
 	create_at_group timestamp default current_timestamp
 );
 
@@ -30,7 +31,6 @@ CREATE TABLE teachers (
 	group_id int not null references groups(group_id) on delete cascade
 );
 
-https://support.bunny.net/hc/en-us/articles/360024887131-Typical-HTTP-Response-Codes?/?pk_campaign=DynamicAD&pk_source=DynamicAD&pk_medium=DynamicAD&pk_keyword=&device=c&gclid=CjwKCAjwiuuRBhBvEiwAFXKaNHjAu88TJDyLL5pDQ0Fck8MaiZTF799r0iURCk1bmVH6-1kv20ayoBoCk6sQAvD_BwE
 CREATE TABLE students(
 	student_id serial not null primary key,
 	student_name  varchar(60) not null,

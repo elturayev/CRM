@@ -5,7 +5,13 @@ const controlDelAppQuery = `
 	WHERE to_char(create_at_appeal::Date ,'yyyy/mm') < to_char(current_date, 'yyyy/mm')
 `
 
-const appealQuery = `SELECT * FROM appeals`
+const appealQuery = `
+	SELECT 
+		appeal_id,
+		user_name,
+		user_phone,
+		to_char(create_at_appeal, 'DD.MM.YYYY') as create_appeal
+	FROM appeals `
 
 const validAppealQuery = `
 	SELECT 

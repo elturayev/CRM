@@ -3,7 +3,11 @@ INSERT INTO groups (group_name) VALUES
 ('Java'),
 ('NodeJS'),
 ('Flutter'),
-('JavaScript');
+('JavaScript'),
+('UX-UI'),
+('GO'),
+('SMM'),
+('C#');
 
 
 INSERT INTO teachers (teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id)
@@ -13,7 +17,10 @@ VALUES
 ('Saud Abdulvahed', '998901234565', 'avatar.jpg','Dush, Chor, Juma', '09:00 - 12:00', 4),
 ('MuhammadHusayn Olimjonov', '998901234560', 'avatar.jpg','Dush, Sesh, Chor, Pay, Juma', '17:30 - 20:00', 3);
 
-
+UPDATE groups SET group_active = true WHERE group_id = 1;
+UPDATE groups SET group_active = true WHERE group_id = 2;
+UPDATE groups SET group_active = true WHERE group_id = 3;
+UPDATE groups SET group_active = true WHERE group_id = 4;
 
 INSERT INTO students (student_name,student_phone,parents_name,parents_phone,student_profile_img, delete_at_student)
 VALUES

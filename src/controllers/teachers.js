@@ -1,6 +1,7 @@
 import  ClientError  from '../utils/errors.js'
 import modelT from '../middlewares/models/teacherModel.js'
 import modelS from '../middlewares/models/studentModel.js'
+import modelG from '../middlewares/models/groupModel.js'
 import path from 'path'
 
 const GET = async (request, response, next) => {
@@ -55,6 +56,7 @@ const POST =  async(request, response, next) => {
 		
 		if(!addT) throw new ClientError(400, 'Teacher not successfully added!')
 
+		const activeGroup = await modelG.changeActive(group_id)
 		file.mv(path.join(process.cwd(), 'src', 'files', teacher_profile_img))
 		
 		response.json({
