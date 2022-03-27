@@ -14,7 +14,7 @@ const teacherQuery = `
 		CASE
 			WHEN length($1) > 0 THEN gr.group_name ilike concat('%', $1, '%')
 			ELSE true
-		END
+		END AND
 		CASE
 			WHEN length($2) > 0 THEN t.teacher_id = $2
 			ELSE true
