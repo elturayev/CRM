@@ -16,7 +16,7 @@ const teacherQuery = `
 			ELSE true
 		END AND
 		CASE
-			WHEN length($2) > 0 THEN t.teacher_id = $2
+			WHEN $2 > 0 THEN t.teacher_id = $2
 			ELSE true
 		END;
 `
