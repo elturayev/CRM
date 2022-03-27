@@ -23,7 +23,6 @@ const PUT = async (request, response, next) => {
 
 		const { student_phone, student_name,teacher_id,group_id, payment_date } = request.body
 		const student = await modelS.students({student_name,student_phone},1,2)
-		console.log(student)
 		if(!(student.length > 0)) throw new ClientError(404,'Student not found!')
 		
 		const studentId = student[0].student_id

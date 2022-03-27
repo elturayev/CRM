@@ -25,7 +25,7 @@ const GET = async (request, response, next ) => {
 			response.json(statisticsSt)
 		}
 		else {
-			const dataSt = await modelS.students(search, page, limit)
+			const dataSt = await modelS.students({student_name: search}, page, limit)
 			response.json(dataSt)
 		}
 
