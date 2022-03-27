@@ -24,6 +24,10 @@ const studentQuery = `
 	CASE
 		WHEN length($1) > 0 THEN st.student_name ilike concat('%', $1, '%')
 		ELSE true
+	END AND
+	CASE
+		WHEN length($4) > 0 THEN st.student_phone = $4
+		ELSE true
 	END AND delete_at_student IS NULL
 	ORDER BY st.student_id
 	OFFSET $2 ROWS 
@@ -75,7 +79,7 @@ const studentDelQuery = `
 
 
 const students = (username, page, limit) => {
-	return fetch(studentQuery,(username ? username : ''), (page - 1) * limit, limit)}
+	return fetch(studentQuery,(username.student_name ? username.student_name : ''), (page - 1) * limit, limit,(username.student_phone ? username.student_phone : ''))}
 
 const addSt = ({student_name,student_phone,parents_name,parents_phone,student_profile_img}) => {
 	return fetch(createStQuery, student_name,student_phone,parents_name,parents_phone,student_profile_img)
