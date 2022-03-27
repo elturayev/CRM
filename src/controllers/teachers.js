@@ -8,7 +8,8 @@ const GET = async (request, response, next) => {
 	try {
 
 		const { search } = request.query
-		const teacher = await modelT.teachers(search)
+		const { teacher_id } = request.params
+		const teacher = await modelT.teachers(search, params)
 		const students = await modelS.students(null,1,10000)
 		for(let i of teacher){
 			const isPaid = []

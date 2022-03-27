@@ -14,6 +14,10 @@ const teacherQuery = `
 		CASE
 			WHEN length($1) > 0 THEN gr.group_name ilike concat('%', $1, '%')
 			ELSE true
+		END
+		CASE
+			WHEN length($2) > 0 THEN t.teacher_id = $2
+			ELSE true
 		END;
 `
 
@@ -30,7 +34,7 @@ const teacherDelQuery = `
 `
 
 const teacherId = (group_id) => fetch(searchTeacherIdQuery, group_id)
-const teachers = (group_name) => fetch(teacherQuery,group_name)
+const teachers = (group_name, teacher_id) => fetch(teacherQuery,group_name, teacher_id)
 const addT = ({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id}) => {
 	return fetch(addTQuery, teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id)
 }
