@@ -18,7 +18,7 @@ const paidQuery = `
 	LEFT JOIN students as st on st.student_id = p.student_id
 	LEFT JOIN teachers as t on t.teacher_id = p.teacher_id
 	LEFT JOIN groups as gr on gr.group_id = p.group_id
-	WHERE p.payment_date IS NOT NULL AND
+	WHERE p.payment_date IS NOT NULL AND st.delete_at_student IS NULL AND
 	CASE
 		WHEN length($1) > 0 THEN st.student_name ilike concat('%', $1, '%')
 		ELSE true
