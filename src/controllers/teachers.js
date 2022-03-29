@@ -74,16 +74,20 @@ const POST =  async(request, response, next) => {
 
 const DELETE = async (request, response, next) => {
 	try {
-
+		
 		const { teacher_id } = request.query
+		
+		const teacher = await modelT.teachers(null, teacher_id)
 		const teacherDelete = await modelT.teacherDel(teacher_id)
+		const activeGroup =  await modelG.change(teacher[0].group_id)
+		
 		if (teacherDelete.length > 0){
 			response.json({
 				status: 200,
 				message: 'Teacher has been deleted!'
 			})
 		} else throw new ClientError(404, 'Teacher not found!')
-
+		
 		return next()
 	} catch(error) {
 		return next(error)

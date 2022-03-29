@@ -16,11 +16,20 @@ const changeActiveQuery = `
 	RETURNING *;
 `
 
+
+const changeQuery = `
+	UPDATE groups SET group_active = false
+	WHERE group_id = $1
+	RETURNING *;
+`
+
 const groups = (active) => fetch(groupsQuery,active)
 
 const changeActive = (group_id) => fetch(changeActiveQuery, group_id)
+const change = (group_id) => fetch(changeQuery, group_id)
 
 export default {
 	groups,
-	changeActive
+	changeActive,
+	change
 }
