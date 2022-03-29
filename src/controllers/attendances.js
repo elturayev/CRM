@@ -19,11 +19,12 @@ const POST = async (request, response, next) => {
  
 		const { group_id, teacher_id, students } = request.body
 		const validAt = await model.validAttendances({ teacher_id, group_id })
+
 		if(validAt.length > 0){
 			students.map( async (student) => {
 				if(student.status) {
 					await model.updateAttendances({
-						attendance_date: new Date().toLocaleDateString('uz-UZ'),
+						attendance_date: new Date(),
 						incoming_date: null, 
 						student_id: student.student_id,
 						teacher_id,
@@ -31,8 +32,8 @@ const POST = async (request, response, next) => {
 	
 				} else {
 					await model.updateAttendances({
-						attendance_date: new Date().toLocaleDateString('uz-UZ'),
-						incoming_date: new Date().toLocaleDateString('uz-UZ'), 
+						attendance_date: new Date(),
+						incoming_date: new Date(), 
 						student_id: student.student_id,
 						teacher_id,
 						group_id})
@@ -43,7 +44,7 @@ const POST = async (request, response, next) => {
 			students.map( async (student) => {
 				if(student.status) {
 					await model.addAttendances({
-						attendance_date: new Date().toLocaleDateString('uz-UZ'),
+						attendance_date: new Date(),
 						incoming_date: null, 
 						student_id: student.student_id,
 						teacher_id,
@@ -51,8 +52,8 @@ const POST = async (request, response, next) => {
 	
 				} else {
 					await model.addAttendances({
-						attendance_date: new Date().toLocaleDateString('uz-UZ'),
-						incoming_date: new Date().toLocaleDateString('uz-UZ'), 
+						attendance_date: new Date(),
+						incoming_date: new Date(), 
 						student_id: student.student_id,
 						teacher_id,
 						group_id})
