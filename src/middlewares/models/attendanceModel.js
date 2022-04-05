@@ -2,9 +2,12 @@ import fetch from '../../utils/postgres.js'
 
 const attendancesQuery = `
 	SELECT 
+		st.student_id,
 		st.student_name,
+		gr.group_id,
 		gr.group_name,
 		to_char(a.attendance_date, 'DD.MM.YYYY') as attendance_date,
+		t.teacher_id,
 		t.teacher_name,
 		st.student_phone,
 		to_char(a.incoming_date, 'DD.MM.YYYY') as incoming_date,
