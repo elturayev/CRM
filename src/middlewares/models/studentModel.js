@@ -46,7 +46,7 @@ const validStQuery = `
 	FROM payments as p
 	NATURAL JOIN students as st
 	NATURAL JOIN groups as gr
-	WHERE st.student_phone = $1 AND gr.group_id = $2
+	WHERE st.student_phone = $1 AND gr.group_id = $2 AND st.delete_at_student IS NULL
 `
 
 const addPQuery = `
@@ -74,7 +74,7 @@ const controlDelStQuery = `
 
 const studentDelQuery = `
 	UPDATE students SET delete_at_student = current_date WHERE student_id = $1
-	RETURNING student_id, student_name, student_phone
+	RETURNING student_id, student_name, student_phone, student_profile_img
 `
 
 

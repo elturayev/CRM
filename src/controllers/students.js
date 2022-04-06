@@ -4,7 +4,7 @@ import modelT from '../middlewares/models/teacherModel.js'
 import modelStatistic from '../middlewares/models/statisticModel.js'
 import { PAGINATION } from '../../config.js'
 import path from 'path'
-
+import fs from 'fs'
 
 const GET = async (request, response, next ) => {
 	try {
@@ -47,12 +47,13 @@ const POST = async (request, response, next) => {
 				group_id
 			} = request.body
 
-		const student_profile_img = file.name.replace(/\s/g, '')
+		let date = new Date()
+
+		const student_profile_img = Date.now() + file.name.replace(/\s/g, '')
 		const validSt = await modelS.validSt({ student_phone, group_id  })
 		if(validSt.length > 0) throw new ClientError(400, 'This student is available!')
 		const createSt = await modelS.addSt({student_name,student_phone,parents_name,parents_phone,student_profile_img})
 		const studentId = createSt[0].student_id
-
 
 		const searchTId = await modelT.teacherId(group_id)
 		const teacherId = searchTId[0].teacher_id
@@ -90,6 +91,11 @@ const DELETE = async (request, response, next) => {
 		const { student_id } = request.query
 		const studentDelete = await modelS.studentDel(student_id)
 		if (studentDelete.length > 0){
+			fs.unlink(path.join(process.cwd(), 'src', 'files', studentDelete[0].student_profile_img), (err) => {
+				if(err) {
+					throw new ClientError(404,'File not found!')
+				}
+			})
 			response.json({
 				status: 200,
 				message: 'Student has been deleted!'

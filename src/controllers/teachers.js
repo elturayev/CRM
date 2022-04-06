@@ -3,6 +3,7 @@ import modelT from '../middlewares/models/teacherModel.js'
 import modelS from '../middlewares/models/studentModel.js'
 import modelG from '../middlewares/models/groupModel.js'
 import path from 'path'
+import fs from 'fs'
 
 const GET = async (request, response, next) => {
 	try {
@@ -48,14 +49,14 @@ const POST =  async(request, response, next) => {
 				group_id 
 			} = request.body
 		
-		const teacher_profile_img = file.name.replace(/\s/g, '')
+		const teacher_profile_img = Date.now() + file.name.replace(/\s/g, '')
 		const teachersAll = await modelT.teacherId(group_id)
 
 		if(teachersAll.length > 0) throw new ClientError(400,'This group has teacher!')
 
 		const addT = await modelT.addT({teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id})
 		
-		if(!addT) throw new ClientError(400, 'Teacher not successfully added!')
+		if(!addT) throw new ClientError(400, 'Teacher failed added!')
 
 		const activeGroup = await modelG.changeActive(group_id)
 		file.mv(path.join(process.cwd(), 'src', 'files', teacher_profile_img))
@@ -94,8 +95,62 @@ const DELETE = async (request, response, next) => {
 	}
 }
 
+const PUT = async (request, response, next) => {
+	try {
+
+		const { teacher_id } = request.query
+
+		const { file } = request.files
+
+		const { teacher_name,
+				teacher_phone,
+				lesson_days,
+				lesson_hours,
+				group_id 
+			} = request.body
+		
+		const teacher_profile_img = Date.now() + file.name.replace(/\s/g, '')
+		const teacher = await modelT.teacherId(group_id, teacher_id)
+		
+		if(teacher.length) {
+
+			const changeTeacher = await modelT.changeTeacher({ 
+				teacher_id,
+				teacher_name, 
+				teacher_phone, 
+				lesson_days, 
+				lesson_hours, 
+				teacher_profile_img, 
+				group_id 
+			})
+
+			if(changeTeacher.length) {
+				response.json({
+					status: 200,
+					message: 'Teacher successfully updated!'
+				})
+			} else throw new ClientError(400, 'Teacher failed updated!')
+
+			file.mv(path.join(process.cwd(), 'src', 'files', teacher_profile_img ))
+
+			fs.unlink(path.join(process.cwd(), 'src', 'files', teacher[0].teacher_profile_img), (err) => {
+				if(err) {
+					throw new ClientError(404,'File not found!')
+				}
+			})
+
+		} else throw new ClientError(404, 'Teacher or group not found!')
+		
+		return next()
+	} catch(error) {
+		return next(error)
+	}
+}
+
+
 export default {
 	GET,
 	POST,
+	PUT,
 	DELETE
 }

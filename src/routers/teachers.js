@@ -7,6 +7,7 @@ const router = Router()
 router.get('/', controller.GET)
 router.get('/:teacher_id', controller.GET)
 router.post('/', validator.validTeacher, controller.POST)
+router.put('/', validator.validTeacher, controller.PUT)
 router.delete('/', controller.DELETE)
 
 export default router;

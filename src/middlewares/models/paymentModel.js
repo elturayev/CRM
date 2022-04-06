@@ -12,7 +12,7 @@ const paidQuery = `
 		st.student_phone,
 		gr.group_name,
 		t.teacher_name,
-		p.payment_date,
+		to_char(p.payment_date::Date, 'DD.MM.YYYY') as payment_date,
 		p.is_paid
 	FROM payments as p
 	LEFT JOIN students as st on st.student_id = p.student_id

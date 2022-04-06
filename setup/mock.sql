@@ -13,9 +13,9 @@ INSERT INTO groups (group_name) VALUES
 INSERT INTO teachers (teacher_name,teacher_phone,teacher_profile_img,lesson_days,lesson_hours,group_id)
 VALUES 
 ('Alisher Kasimov', '998901234567', 'avatar.jpg','Dush, Sesh, Juma', '14:00 - 16:00', 1),
-('Akbarshox Sattarov', '998901234561', 'avatar.jpg','Sesh, Pay, Shan', '18:00 - 20:00', 2),
-('Saud Abdulvahed', '998901234565', 'avatar.jpg','Dush, Chor, Juma', '09:00 - 12:00', 4),
-('MuhammadHusayn Olimjonov', '998901234560', 'avatar.jpg','Dush, Sesh, Chor, Pay, Juma', '17:30 - 20:00', 3);
+('Akbarshox Sattarov', '998901234561', 'avatar1.png','Sesh, Pay, Shan', '18:00 - 20:00', 2),
+('Saud Abdulvahed', '998901234565', 'avatar2.png','Dush, Chor, Juma', '09:00 - 12:00', 4),
+('MuhammadHusayn Olimjonov', '998901234560', 'avatar3.jpg','Dush, Sesh, Chor, Pay, Juma', '17:30 - 20:00', 3);
 
 UPDATE groups SET group_active = true WHERE group_id = 1;
 UPDATE groups SET group_active = true WHERE group_id = 2;
